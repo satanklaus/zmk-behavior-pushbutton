@@ -1,0 +1,12 @@
+config ZMK_BEHAVIOR_PUSHBUTTON
+    bool
+    default y
+    depends on DT_HAS_ZMK_BEHAVIOR_PUSHBUTTON_ENABLED
+
+if ZMK_BEHAVIOR_PUSHBUTTON
+
+config ZMK_BEHAVIOR_PUSHBUTTON_PROPERTY1
+    <bool | string | hex | int>
+    help Explanation of property 1
+
+endif #ZMK_BEHAVIOR_PUSHBUTTON

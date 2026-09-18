@@ -1,0 +1,16 @@
+description: Push Button Behavior
+
+compatible: "zmk,behavior-pushbutton"
+
+include: base.yaml
+
+properties:
+  gpios:
+    type: phandle-array
+    required: true
+    description: GPIO controlled by this behavior
+
+  press-duration-ms:
+    type: int
+    default: 200
+    description: Duration of the GPIO pulse in milliseconds
