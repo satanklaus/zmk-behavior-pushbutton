@@ -33,6 +33,21 @@ Add the module (ZMK_EXTRA_MODULES or west.yml), then define an instance and bind
 };
 ```
 
+## Wiring an optocoupler (PC817 or equivalent)
+
+```
+ controller                        PC817                    button
+ GPIO ──[ 1 kΩ ]────────── 1 A ──┤ ▶|   ↗ ├── 4 C ───────── signal (+)
+ GND  ──────────────────── 2 K ──┤        ├── 3 E ───────── ground (−)
+```
+
+- 1 kΩ gives about 2 mA from a 3.3 V pin, safe for nRF52840 standard drive and
+  plenty for a button input. Don't go below about 470 Ω.
+- The output goes in parallel with the existing button. If nothing happens, swap
+  pins 3 and 4. Reversing them doesn't damage anything.
+- To switch a PC on, the controller must be powered while the PC is off: enable
+  "USB power in S5" or disable ErP in the BIOS.
+
 ## Tests
 
 `tests/pushbutton` holds ZMK native_sim tests (emulated GPIO, mock kscan):
