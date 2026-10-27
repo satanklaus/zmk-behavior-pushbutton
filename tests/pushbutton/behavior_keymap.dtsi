@@ -1,0 +1,32 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+    behaviors {
+        pb: pushbutton {
+            compatible = "zmk,behavior-pushbutton";
+            #binding-cells = <0>;
+            gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
+            press-duration-ms = <50>;
+        };
+
+        pb_low: pushbutton_low {
+            compatible = "zmk,behavior-pushbutton";
+            #binding-cells = <0>;
+            gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+            press-duration-ms = <100>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &pb     &kp A
+                &pb_low &none>;
+        };
+    };
+};

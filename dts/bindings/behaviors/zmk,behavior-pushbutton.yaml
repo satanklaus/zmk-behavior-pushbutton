@@ -1,16 +1,18 @@
-description: Push Button Behavior
+description: |
+  Push button behavior: drives a GPIO active for a fixed time when the key is
+  pressed, e.g. to "press" a physical button through a transistor/optocoupler.
 
 compatible: "zmk,behavior-pushbutton"
 
-include: base.yaml
+include: zero_param.yaml
 
 properties:
   gpios:
     type: phandle-array
     required: true
-    description: GPIO controlled by this behavior
+    description: GPIO driven by this behavior (use the flags for active level)
 
   press-duration-ms:
     type: int
     default: 200
-    description: Duration of the GPIO pulse in milliseconds
+    description: How long the GPIO stays active after a key press

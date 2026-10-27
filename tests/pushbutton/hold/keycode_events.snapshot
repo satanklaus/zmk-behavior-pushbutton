@@ -1,0 +1,2 @@
+on: pin 5 active for 50 ms
+off: pin 5 inactive after 51 ms

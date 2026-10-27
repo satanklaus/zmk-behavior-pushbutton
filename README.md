@@ -1,11 +1,45 @@
-# ZMK Module Template
+# zmk-behavior-pushbutton
 
-This repository contains a template for a ZMK module, as it would most frequently be used. 
+ZMK behavior that drives a GPIO active for a fixed time when its key is pressed,
+e.g. to "press" a physical button (PC power/reset switch) through a transistor or
+optocoupler wired to a spare pin.
+
+- The pulse length is fixed (`press-duration-ms`); releasing the key early does
+  not shorten it, holding it does not lengthen it.
+- Pressing again while the pin is still active restarts the pulse.
+- Runs on the central (or a non-split keyboard): put the GPIO on that board.
+- Use the GPIO flags for polarity (`GPIO_ACTIVE_LOW` for an active-low driver).
 
 ## Usage
 
-Read through the [ZMK Module Creation](https://zmk.dev/docs/development/module-creation) page for details on how to configure this template.
+Add the module (ZMK_EXTRA_MODULES or west.yml), then define an instance and bind it:
 
-## More Info
+```dts
+#include <dt-bindings/gpio/gpio.h>
 
-For more info on modules, you can read through  through the [Zephyr modules page](https://docs.zephyrproject.org/3.5.0/develop/modules.html) and [ZMK's page on using modules](https://zmk.dev/docs/features/modules). [Zephyr's west manifest page](https://docs.zephyrproject.org/3.5.0/develop/west/manifest.html#west-manifests) may also be of use.
+/ {
+    behaviors {
+        pwr: power_button {
+            compatible = "zmk,behavior-pushbutton";
+            #binding-cells = <0>;
+            gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+            press-duration-ms = <300>;   /* default 200 */
+        };
+    };
+
+    keymap {
+        /* ... */ &pwr /* ... */
+    };
+};
+```
+
+## Tests
+
+`tests/pushbutton` holds ZMK native_sim tests (emulated GPIO, mock kscan):
+tap, hold longer than the pulse, retrigger during the pulse, and two instances
+(one active-low) running alongside a normal key. From `zmk/app`:
+
+```sh
+ZMK_EXTRA_MODULES=/path/to/zmk-behavior-pushbutton \
+    ./run-test.sh /path/to/zmk-behavior-pushbutton/tests/pushbutton
+```

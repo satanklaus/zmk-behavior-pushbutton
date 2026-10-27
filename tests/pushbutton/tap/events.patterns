@@ -1,0 +1,3 @@
+s/.*on_pushbutton_binding_pressed: /on: /p
+s/.*pushbutton_release: /off: /p
+s/.*hid_listener_keycode_//p

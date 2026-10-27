@@ -1,0 +1,6 @@
+on: pin 5 active for 50 ms
+on: pin 6 active for 100 ms
+pressed: usage_page 0x07 keycode 0x04 implicit_mods 0x00 explicit_mods 0x00
+off: pin 5 inactive after 51 ms
+released: usage_page 0x07 keycode 0x04 implicit_mods 0x00 explicit_mods 0x00
+off: pin 6 inactive after 101 ms
